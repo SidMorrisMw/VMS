@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ElectionMS — Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --purple-500: #5a189a;
+      --purple-600: #3c096c;
+      --purple-700: #240046;
+      --bg-grad-start: #3c096c;
+      --bg-grad-end: #5a189a;
+      --card-bg: rgba(255,255,255,0.08);
+      --glass-border: rgba(255,255,255,0.25);
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(135deg,var(--bg-grad-start),var(--bg-grad-end));
+      color: #fff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:32px;
+    }
+    .wrap{
+      width:100%;max-width:960px;display:grid;grid-template-columns:1fr 420px;gap:32px;align-items:center;
+    }
+    .brand{
+      color:#fff;
+      padding:28px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border:1px solid rgba(255,255,255,0.15);backdrop-filter: blur(6px);
+    }
+    .logo{display:flex;gap:14px;align-items:center}
+    .logo .icon{width:68px;height:68px;border-radius:14px;display:grid;place-items:center;background:rgba(255,255,255,0.2);border:1px solid rgba(255,255,255,0.25);}
+    h1{font-size:28px;margin:6px 0 0}
+    p.lead{opacity:0.95;margin-top:8px;line-height:1.4}
+
+    .card{
+      background:var(--card-bg);padding:26px;border-radius:14px;border:1px solid var(--glass-border);box-shadow:0 8px 30px rgba(0,0,0,0.3);
+    }
+
+    form .field{margin-bottom:14px}
+    label{display:block;font-size:13px;margin-bottom:6px;opacity:0.95;color:#fff}
+    .input{
+      width:100%;padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.3);background:rgba(255,255,255,0.1);color:#fff;outline:none;font-size:15px;
+    }
+    .input:focus{box-shadow:0 6px 18px rgba(0,0,0,0.3) inset;border-color:rgba(255,255,255,0.45)}
+    .row{display:flex;gap:12px}
+    .role-toggle{display:flex;gap:8px}
+    .role-option{flex:1;padding:10px;border-radius:10px;text-align:center;border:1px solid rgba(255,255,255,0.25);cursor:pointer;background:transparent;color:#fff}
+    .role-option input{display:none}
+    .role-option.active{background:linear-gradient(90deg,var(--purple-600),var(--purple-500));box-shadow:0 6px 18px rgba(0,0,0,0.4)}
+    .role-option i{display:block;font-size:20px;margin-bottom:6px;color:#fff}
+    .actions{display:flex;align-items:center;justify-content:space-between;margin-top:10px;color:#fff}
+    .btn{
+      display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border-radius:10px;border:none;cursor:pointer;font-weight:600
+    }
+    .btn-primary{background:linear-gradient(90deg,var(--purple-500),var(--purple-600));color:#fff;box-shadow:0 8px 24px rgba(92,0,153,0.4)}
+    .small{font-size:13px;opacity:0.95;color:#fff}
+    .muted{opacity:0.9;font-size:13px;color:#fff}
+
+    .help-text{margin-top:10px;font-size:13px;color:#f0f0f0}
+    .show-pass{position:relative}
+    .show-pass .eye{position:absolute;right:12px;top:37px;cursor:pointer;opacity:0.9;color:#fff}
+
+    /* responsive */
+    @media (max-width:880px){
+      .wrap{grid-template-columns:1fr;max-width:540px}
+      .logo{justify-content:center}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">
+        <div class="icon">
+          <i class="fa-solid fa-check-to-slot fa-2x" style="color: white;"></i>
+        </div>
+        <div>
+          <h1>ElectionMS</h1>
+          <p class="lead">A simple, secure elections management system — role-based access for Admins and Election Officers.</p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <form id="loginForm" action="login.php" method="post" novalidate>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <h2 style="margin:0;color:#fff">Sign in</h2>
+            <div class="muted small">Use your account to access dashboards</div>
+          </div>
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" class="input" placeholder="you@example.com" required>
+          </div>
+
+          <div class="field show-pass">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" class="input" placeholder="Your password" required>
+            <i id="togglePass" class="fa-solid fa-eye eye" title="Show / hide password"></i>
+          </div>
+
+          <div class="field">
+            <label>Role</label>
+            <div class="role-toggle" role="radiogroup" aria-label="Select role">
+              <label class="role-option active" data-role="admin">
+                <input type="radio" name="role" value="admin" checked>
+                <i class="fa-solid fa-user-shield"></i>
+                Admin
+              </label>
+              <label class="role-option" data-role="officer">
+                <input type="radio" name="role" value="officer">
+                <i class="fa-solid fa-user-tie"></i>
+                Elections Officer
+              </label>
+            </div>
+          </div>
+
+          <div class="actions">
+            <div style="display:flex;gap:10px;align-items:center">
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+                <input type="checkbox" name="remember"> <span class="small">Remember me</span>
+              </label>
+            </div>
+
+            <div>
+              <a href="#" class="small muted">Forgot password?</a>
+            </div>
+          </div>
+
+          <div style="margin-top:16px;display:flex;gap:10px;align-items:center">
+            <button type="submit" class="btn btn-primary"> <i class="fa-solid fa-right-to-bracket"></i> Sign in</button>
+          </div>
+
+          <div id="error" style="margin-top:12px;color:#ffdede;display:none;font-size:13px"></div>
+
+          <div class="help-text">By signing in you agree to the terms.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // role selection UI
+    const roleOptions = document.querySelectorAll('.role-option');
+    roleOptions.forEach(opt=>{
+      opt.addEventListener('click', ()=>{
+        roleOptions.forEach(o=>o.classList.remove('active'));
+        opt.classList.add('active');
+        opt.querySelector('input[type=radio]').checked = true;
+      });
+    });
+
+    // show/hide password
+    const togglePass = document.getElementById('togglePass');
+    const pwd = document.getElementById('password');
+    togglePass.addEventListener('click', ()=>{
+      if(pwd.type === 'password'){
+        pwd.type = 'text';
+        togglePass.classList.remove('fa-eye');
+        togglePass.classList.add('fa-eye-slash');
+      } else {
+        pwd.type = 'password';
+        togglePass.classList.remove('fa-eye-slash');
+        togglePass.classList.add('fa-eye');
+      }
+    });
+  </script>
+</body>
+</html>
